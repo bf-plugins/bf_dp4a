@@ -1,27 +1,13 @@
-## add_stuff
+## bf_dp4a
 
-A simple example plugin for bifrost
-
-Author: Danny Price
-
-### Compiling your plugin
+A simple correlator using the DP4A instruction (xcorr_lite) and bifrost version of
+Ewan Barr's [beanfarmer](https://github.com/ewanbarr/beanfarmer) beamforming code.
+### Compilation
 
 To build your plugin:
 
-0) Setup your build environment (on topaz, run `source setup_env.sh`).
-1) Add your source code to `src/`. Names must be `add_stuff.h` and `add_stuff.cu`.
-2) compile with meson by running:
-
 ```
-meson setup build
+meson setup build --prefix=/path/to/install
 cd build
 meson compile
-```
-
-### Using your plugin
-
-```python
-from build import add_stuff_generated as _bf
-_bf.init()
-_bf.execute(data_in.as_BFarray(), data_out.as_BFarray())
 ```
