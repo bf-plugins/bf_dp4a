@@ -20,6 +20,18 @@ bf_include = include_directories(
 
 cuda_dep = dependency('cuda', version : '>=11', modules : ['cudart', 'nvrtc'])
 
+
+# Dependency: python
+python_sources = [
+  'bf_dp4a/__init__.py',
+  'bf_dp4a/ctypes_loader.py',
+  'bf_dp4a/ctypes_preamble.py',
+  'bf_dp4a/libbf_dp4a_wrapper.py'
+]
+
+
+
+
 # Generate python wrapper from .h file
 r = run_command('./generate_wrapper.py', check: true)
 message(r.stdout())
@@ -29,6 +41,15 @@ srcs =  ['src/xcorr_lite.cu', 'src/beanfarmer.cu']
 # Generate shared object from .cu file  
 lib = library(plugin_name, srcs,  
               version : '0.0.1', soversion : '0', 
-              dependencies: [bf_dep, cuda_dep], include_directories: bf_include)
+              dependencies: [bf_dep, cuda_dep], include_directories: bf_include, 
+              install: true)
 
-
+# Python install
+py_mod = import('python')
+py3 = py_mod.find_installation()
+py3_dep = py3.dependency()
+py3.install_sources(python_sources, 
+                    subdir: plugin_name)
+#py3.extension_module(plugin_name, srcs,  
+#              dependencies: [bf_dep, cuda_dep], include_directories: bf_include, 
+#              install: true)
