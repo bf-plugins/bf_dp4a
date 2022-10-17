@@ -84,7 +84,7 @@ __global__ void bf_aptf_general_k(int2 const *__restrict__ aptf_voltages,
                                   int const NANTENNAS, int const NPOL,
                                   int const NCHANNELS, int const NBEAMS,
                                   int const NACCUMULATE, int const NSAMPLES) {
-  int const NSAMPLES_PER_BLOCK = (NACCUMULATE * NTHREADS / WARP_SIZE);
+  // int const NSAMPLES_PER_BLOCK = (NACCUMULATE * NTHREADS / WARP_SIZE);
   // int const NSAMPLES = (NSAMPLES_PER_BLOCK * 100);
 
   /**
@@ -226,7 +226,7 @@ void launch_beanfarmer(int2 const *__restrict__ aptf_voltages,
                        const int NPOL, const int NCHANNELS, const int NBEAMS,
                        const int NACCUMULATE, const int NSAMPLES) {
 
-  const int NSAMPLES_PER_BLOCK = (NACCUMULATE * NTHREADS / WARP_SIZE);
+  //const int NSAMPLES_PER_BLOCK = (NACCUMULATE * NTHREADS / WARP_SIZE);
   //const int NSAMPLES = (NSAMPLES_PER_BLOCK * 100);
   int shm_bytes = sizeof(int2) * (NANTENNAS / 4 * NPOL * WARP_SIZE +
                                   NTHREADS / WARP_SIZE * NANTENNAS / 4);
