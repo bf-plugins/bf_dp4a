@@ -19,8 +19,8 @@ hdr_tpl= '''
 Python wrapper generated with bragr (bifrost)
 """
 
-from .ctypes_loader import load_library, add_library_search_dirs 
-from .ctypes_preamble import *
+from ctypesgen.libraryloader import load_library, add_library_search_dirs 
+from ctypesgen.printer_python.preamble import *
 from bifrost.libbifrost_generated import BFarray, BFstatus
 
 add_library_search_dirs("{{build_path}}")
@@ -88,11 +88,11 @@ if __name__== "__main__":
 
         # Run ctypesgen
         print(crayons.green(ctypes_cmd))
-        output =  subprocess.check_output(ctypes_cmd.split(' '), 
-                                          stderr=subprocess.STDOUT).decode('ascii')
-        
-        if "ERROR" in output:
-            print(output)
+        output = subprocess.run(ctypes_cmd.split(' '),  check=True, capture_output=True)
+        outmsg = output.stderr.decode('ascii')
+
+        if "ERROR" in outmsg:
+            print(outmsg)
             print(crayons.red("ctypesgen error detected, exiting...", bold=True))
             exit()
     
@@ -113,5 +113,5 @@ if __name__== "__main__":
     # Copy to python package
     #shutil.copy('build/ctypes_loader.py', hdr['plugname'])
     #shutil.copy('build/ctypes_preamble.py', hdr['plugname'])
-    shutil.copy(fn_out, hdr['plugname'])
+    #hutil.copy(fn_out, hdr['build_path'])
     print(crayons.white(f"Wrapper written to {fn_out}", bold=True))
