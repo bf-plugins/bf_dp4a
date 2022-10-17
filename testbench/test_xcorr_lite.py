@@ -1,7 +1,8 @@
 import numpy as np
 import bifrost as bf
 from bifrost.libbifrost import _bf
-from bf_dp4a import XcorrLite, _XcorrLite
+
+from libbf_dp4a_wrapper import XcorrLite
 
 def compute_xcorr_cpu(d):
     dc = d.astype('float32').view('complex64')
@@ -28,7 +29,7 @@ def test_xcorr(H, N, F, T):
         xcorr_cpu = compute_xcorr_cpu(d)
 
         print("Copying data to GPU...")
-        d_gpu     = bf.ndarray(d, dtype='i8', space='cuda')
+        d_gpu   = bf.ndarray(d, dtype='i8', space='cuda')
 
         print("Run xcorr_lite...")
         XcorrLite(d_gpu.as_BFarray(), xcorr_bf.as_BFarray(), np.int32(reset))
@@ -52,7 +53,7 @@ def test_multi_accumulate(H, N, F, T, n_cycles):
 
     print("Running xcorr_lite...")
     d_gpu     = bf.ndarray(d, dtype='i8', space='cuda')
-    _XcorrLite(d_gpu.as_BFarray(), xcorr_bf.as_BFarray(), np.int32(reset))
+    XcorrLite(d_gpu.as_BFarray(), xcorr_bf.as_BFarray(), np.int32(reset))
     xcorr_gpu = np.array(xcorr_bf.copy('system'))
 
     print("Testing first integration cycle...")    
@@ -62,7 +63,7 @@ def test_multi_accumulate(H, N, F, T, n_cycles):
     for ii in range(1, n_cycles):
         print("Run xcorr_lite...")
         reset = 0
-        _XcorrLite(d_gpu.as_BFarray(), xcorr_bf.as_BFarray(), np.int32(reset))
+        XcorrLite(d_gpu.as_BFarray(), xcorr_bf.as_BFarray(), np.int32(reset))
 
         print("Copy result from GPU...")
         xcorr_gpu = np.array(xcorr_bf.copy('system'))
