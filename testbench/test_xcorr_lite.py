@@ -2,7 +2,7 @@ import numpy as np
 import bifrost as bf
 from bifrost.libbifrost import _bf
 
-from bf_dp4a.libbf_dp4a_wrapper import XcorrLite
+from bf_dp4a import XcorrLite
 
 def compute_xcorr_cpu(d):
     dc = d.astype('float32').view('complex64')
