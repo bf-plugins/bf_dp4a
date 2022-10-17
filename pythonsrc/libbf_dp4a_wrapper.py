@@ -4,8 +4,8 @@
 Python wrapper generated with bragr (bifrost)
 """
 
-from .ctypes_loader import load_library, add_library_search_dirs 
-from .ctypes_preamble import *
+from ctypesgen.libraryloader import load_library, add_library_search_dirs 
+from ctypesgen.printer_python.preamble import *
 from bifrost.libbifrost_generated import BFarray, BFstatus
 
 add_library_search_dirs("/home/dancpr/software/bf_plugins/bf_dp4a/build")
