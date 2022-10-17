@@ -159,7 +159,8 @@ extern "C" {
         int N = bf_data->shape[2]; // Antenna
         int T = bf_data->shape[3]; // Fine time
         
-        //printf("ispan dims F: %d N: %d T: %d\n", F, N, T);
+        printf("ispan dims F: %d N: %d T: %d\n", F, N, T);
+        
         launch_xcorr_lite(data, xcorr, H, F, N, T, reset);
         
         BF_CHECK_CUDA(cudaGetLastError(), BF_STATUS_DEVICE_ERROR);
